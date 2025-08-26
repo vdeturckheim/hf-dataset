@@ -47,7 +47,6 @@ export class HFDataset<T = unknown> implements AsyncIterable<T> {
         return ds;
     }
 
-
     async *[Symbol.asyncIterator](): AsyncIterator<T> {
         this.#ensureNotDisposed();
         await this.#ensurePrepared();
