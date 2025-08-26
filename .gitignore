@@ -93,7 +93,6 @@ dist
 
 # vuepress v2.x temp and cache directory
 .temp
-.cache
 
 # Sveltekit cache directory
 .svelte-kit/
@@ -137,3 +136,13 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Keep the TypeScript source files (but not .d.ts)
+!*.ts
+*.d.ts
+
+# Compiled JavaScript and TypeScript files (we compile in-place)
+*.js
+*.js.map
+*.d.ts.map
+.claude
