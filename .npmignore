@@ -1,0 +1,38 @@
+# Source files
+*.ts
+!*.d.ts
+
+# Test files
+test.*
+*.test.*
+*.spec.*
+
+# Config files
+tsconfig.json
+biome.json
+.gitignore
+.npmignore
+
+# CI/CD
+.github/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Source maps
+*.map
+
+# Build artifacts (except the ones we want)
+*.d.ts.map
+*.js.map
+
+# Development files
+node_modules/
+package-lock.json
+
+# Misc
+.claude
+*.log
+.DS_Store
