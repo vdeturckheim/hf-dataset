@@ -52,7 +52,7 @@ jobs:
     needs: typecheck
     strategy:
       matrix:
-        node-version: ['24', '25']
+        node-version: ['24']
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
