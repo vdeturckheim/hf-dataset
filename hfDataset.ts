@@ -1,12 +1,12 @@
-import { snapshotDownload } from '@huggingface/hub';
-import { ParquetReader } from '@dsnp/parquetjs';
-import * as fsp from 'node:fs/promises';
 import * as fs from 'node:fs';
+import * as fsp from 'node:fs/promises';
 import * as path from 'node:path';
-import * as zlib from 'node:zlib';
-import { Readable } from 'node:stream';
-import { parse as csvParse } from 'csv-parse';
 import * as readline from 'node:readline';
+import type { Readable } from 'node:stream';
+import * as zlib from 'node:zlib';
+import { ParquetReader } from '@dsnp/parquetjs';
+import { snapshotDownload } from '@huggingface/hub';
+import { parse as csvParse } from 'csv-parse';
 import Debug from 'debug';
 
 const debug = Debug('hf-dataset');
@@ -99,9 +99,10 @@ export class HFDataset<T = unknown> implements AsyncIterable<T> {
                         revision: this.revision,
                         accessToken: this.token,
                     });
-                } catch (err: any) {
+                } catch (err) {
                     // Handle the specific error for empty 'git' file in inria-soda/tabular-benchmark
-                    if (err.statusCode === 416 && err.url?.includes('/git')) {
+                    const error = err as { statusCode?: number; url?: string };
+                    if (error.statusCode === 416 && error.url?.includes('/git')) {
                         debug('Ignoring 416 error for empty git file, attempting alternative download');
                         // Try downloading with explicit file patterns
                         this.#dir = await snapshotDownload({
@@ -144,7 +145,7 @@ export class HFDataset<T = unknown> implements AsyncIterable<T> {
             const file = rel.replace(/\\/g, '/');
 
             let ext = path.extname(file).toLowerCase();
-            let gz = ext === '.gz';
+            const gz = ext === '.gz';
             if (gz) {
                 // If it's a .gz, peek at the extension prior to .gz
                 ext = path.extname(path.basename(file, '.gz')).toLowerCase();

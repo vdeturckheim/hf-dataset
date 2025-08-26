@@ -1,5 +1,5 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert';
+import { describe, it } from 'node:test';
 import { HFDataset } from './hfDataset.js';
 
 describe('HFDataset', () => {
@@ -28,8 +28,8 @@ describe('HFDataset', () => {
             assert.strictEqual(rows.length, 5, 'Should have collected 5 rows');
 
             // Verify that rows are different
-            const firstRowText = (rows[0] as any).text;
-            const secondRowText = (rows[1] as any).text;
+            const firstRowText = (rows[0] as Record<string, unknown>).text;
+            const secondRowText = (rows[1] as Record<string, unknown>).text;
             assert.notStrictEqual(firstRowText, secondRowText, 'First two rows should have different content');
         });
 
@@ -57,7 +57,7 @@ describe('HFDataset', () => {
 
                     // Verify all values are defined
                     for (const key of keys) {
-                        assert.ok(key in (row as any), `Row should have property ${key}`);
+                        assert.ok(key in (row as Record<string, unknown>), `Row should have property ${key}`);
                     }
 
                     rows.push(row);
